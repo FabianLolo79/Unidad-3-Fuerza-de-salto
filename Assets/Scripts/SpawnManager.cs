@@ -5,14 +5,17 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject ObstaclePrefab;
+
     private Vector3 spawnPosition = new Vector3(20, 0, 0);
     private float starDelay = 2f;
     private float repeatRate = 2f;
+    private PlayerController playerControllerScript;
 
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SpawnObstacle", starDelay, repeatRate);
+        playerControllerScript = GameObject.Find("Player").GetComponent<PlayerController>();
+        InvokeRepeating("SpawnObstacle", starDelay, repeatRate); //instancia obstáculos por tiempo
     }
 
     // Update is called once per frame
@@ -21,8 +24,12 @@ public class SpawnManager : MonoBehaviour
         
     }
 
+    // generador de obstáculos 
     void SpawnObstacle()
     {
-        Instantiate(ObstaclePrefab, spawnPosition, ObstaclePrefab.transform.rotation);
+        if (playerControllerScript.gameOver == false)
+        {
+            Instantiate(ObstaclePrefab, spawnPosition, ObstaclePrefab.transform.rotation);
+        }
     }
 }
