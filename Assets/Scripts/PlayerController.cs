@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     public ParticleSystem explosionParticle;
     public ParticleSystem dirtParticle;
 
+    public AudioClip JumpSound;
+    public AudioClip crashSound;
+    public AudioSource playerAudio;
     public float jumpForce = 10f; 
     public float gravityModifier;
     public bool isOnGround = true;
@@ -21,6 +24,8 @@ public class PlayerController : MonoBehaviour
     {
         playerRb = GetComponent<Rigidbody>();
         playerAnim = GetComponent<Animator>();
+        playerAudio = GetComponent<AudioSource>();
+
         Physics.gravity *= gravityModifier;
     }
 
@@ -34,6 +39,7 @@ public class PlayerController : MonoBehaviour
             isOnGround = false;
             playerAnim.SetTrigger("Jump_trig");
             dirtParticle.Stop();
+            playerAudio.PlayOneShot(JumpSound, 1.0f);
         }
     }
 
@@ -53,6 +59,8 @@ public class PlayerController : MonoBehaviour
             playerAnim.SetInteger("DeathType_int", 1);
             explosionParticle.Play();
             dirtParticle.Stop();
+            GameObject.Find("FX_DirtSplatter").gameObject.SetActive(false); // corrige el bug de morir y volver a tocar el piso que activaba las partículas 
+            playerAudio.PlayOneShot(crashSound, 1.0f);
         }
     }
 }
