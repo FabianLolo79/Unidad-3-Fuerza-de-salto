@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip JumpSound;
     public AudioClip crashSound;
     public AudioSource playerAudio;
+
     public float jumpForce = 10f; 
     public float gravityModifier;
     public bool isOnGround = true;
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour
             dirtParticle.Stop();
             GameObject.Find("FX_DirtSplatter").gameObject.SetActive(false); // corrige el bug de morir y volver a tocar el piso que activaba las partículas 
             playerAudio.PlayOneShot(crashSound, 1.0f);
+            GameObject.Find("Main Camera").GetComponent<AudioSource>().Stop();
         }
     }
 }
